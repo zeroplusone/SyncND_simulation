@@ -1,3 +1,6 @@
+#ifndef _PARAMETER_H
+#define _PARAMETER_H
+
 #include <iostream>
 #include <cstdlib>
 
@@ -10,3 +13,5 @@ public:
 
     void settingDisplay();
 };
+
+#endif

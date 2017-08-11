@@ -1,6 +1,3 @@
-#ifndef _PARAMETER_H
-#define _PARAMETER_H
-
 #include "Parameter.hpp"
 using namespace std;
 
@@ -21,5 +18,3 @@ void Parameter::settingDisplay() {
     cout << "update frequency: " << Parameter::UPDATE_FREQ << endl;
     cout << "======================" << endl;
 }
-
-#endif
