@@ -1,8 +1,9 @@
-#ifndef _PARAMETER_H
-#define _PARAMETER_H
+#ifndef PARAMETER_H
+#define PARAMETER_H
 
 #include <iostream>
 #include <cstdlib>
+using namespace std;
 
 class Parameter {
 public:

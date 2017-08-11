@@ -1,5 +1,6 @@
 # include "Parameter.hpp"
-using namespace std;
+# include "Group.hpp"
+
 
 int main(int argc, char* argv[]) {
 
@@ -10,6 +11,9 @@ int main(int argc, char* argv[]) {
     }
     Parameter para(strtod(argv[1], NULL), strtod(argv[2], NULL), atoi(argv[3]));
     para.settingDisplay();
+
+    Group group(2);
+    group.process();
 
     return 0;
 }

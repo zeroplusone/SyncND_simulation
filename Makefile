@@ -1,11 +1,22 @@
-all: main.o Parameter.o
-	g++ -o SyncND.out main.o Parameter.o
+CC = g++
+CFLAGS = -std=c++11
+OBJS = Node.o Group.o Parameter.o main.o 
+PROG = SyncND.out
+
+all: $(OBJS)
+	$(CC) -o $(PROG) $(OBJS)
 
 main.o: main.cpp
-	g++ -c main.cpp
+	$(CC) $(CFLAGS) -c main.cpp
 
-Parameter.p: Parameter.cpp
-	g++ -c Parameter.cpp
+Parameter.o: Parameter.cpp
+	$(CC) $(CFLAGS) -c Parameter.cpp
+
+Node.o: Node.cpp
+	$(CC) $(CFLAGS) -c Node.cpp
+
+Group.o: Group.cpp
+	$(CC) $(CFLAGS) -c Group.cpp
 
 clean:
 	rm *.o
