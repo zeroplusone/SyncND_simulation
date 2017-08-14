@@ -11,7 +11,7 @@ public:
     static double DUTY_CYCLE; // duty cycle => energy consumption
     static double SUCCESS_PROB; // assuring probability of success
     static int UPDATE_FREQ; // update frequency in hour
-
+    static const int SLOT_DURATION = 5; // in ms
     void settingDisplay();
 };
 
