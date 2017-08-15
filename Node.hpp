@@ -6,6 +6,9 @@ public:
     Node();
     static int nodeIdCounter;
     int id;
+    double getNextEventTime(int, double);
+private:
+    double timeCounter;
 };
 
 #endif
