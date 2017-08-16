@@ -1,10 +1,13 @@
 CC = g++
 CFLAGS = -std=c++11
-OBJS = Event.o Node.o Group.o Parameter.o main.o 
+OBJS = Event.o Parameter.o Node.o Group.o  main.o 
 PROG = SyncND.out
 
 all: $(OBJS)
 	$(CC) $(CFLAGS) -o $(PROG) $(OBJS)
+
+debug: $(OBJS)
+	$(CC) $(CFLAGS) -g -o $(PROG).debug $(OBJS)
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp

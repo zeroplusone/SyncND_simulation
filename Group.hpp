@@ -10,23 +10,17 @@
 #include <set>
 using namespace std;
 
-struct Compare{
-    bool operator()(const Event& a, const Event& b)const {
-        return a.time>b.time;
-    }
-};
 class Parameter;
 class Node;
 class Event;
 class Group {
 public:
     Group(int);
-    void process(Parameter);
+    void process(Event e);
 private:
     static int groupIdCounter;
     int id;
     vector<Node> nodeList;
-    priority_queue<Event, vector<Event>, Compare> eventList;
     int numberOfNode;
 };
 

@@ -3,8 +3,22 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <queue>
+#include <vector>
+#include "Event.hpp"
+#include "Group.hpp"
+#include "Node.hpp"
 using namespace std;
 
+struct Compare {
+    bool operator()(const Event& a, const Event& b)const {
+        return a.time == b.time ? a.groupId > b.groupId : a.time > b.time;
+    }
+};
+
+class Event;
+class Group;
+class Node;
 class Parameter {
 public:
     Parameter(double, double, double, double);
@@ -12,9 +26,18 @@ public:
     static double DUTY_CYCLE; // duty cycle => energy consumption
     static double SUCCESS_PROB; // assuring probability of success
     static double UPDATE_FREQ; // update frequency in ms
+
     static const double SLOT_DURATION; // in ms
+    static const double NUMBER_OF_GROUPS; // number of groups
+
+    static double ACTIVE_DURATION; // in ms
+    static double SLEEP_DURATION; // in ms
+    static int NUMBER_OF_CYCLE_PER_UPDATE; // one cycle include active and sleep period
     static double ERROR_BOUND;  // +- value in ms
     static double GLOBAL_TIME;
+    static priority_queue<Event, vector<Event>, Compare> eventList;
+    static vector<Group> groupList;
+    static vector<Node> syncNodes;
     void settingDisplay();
 };
 

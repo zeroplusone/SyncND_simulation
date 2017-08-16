@@ -6,7 +6,8 @@
 
 class Event {
 public:
-    Event(int, int, double);
+    Event(int, int, int, double);
+    int groupId;
     int nodeId;
     int eventType;
     double time;
