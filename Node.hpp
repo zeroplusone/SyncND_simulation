@@ -6,9 +6,10 @@
 
 class Node {
 public:
-    Node(int);
+    Node(int, int);
     static int nodeIdCounter;
     int id;
+    int idInGroup;
     int belongedGroupId;
     double getNextEventTime(int, double);
 private:

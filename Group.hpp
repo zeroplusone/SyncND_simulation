@@ -17,10 +17,10 @@ class Group {
 public:
     Group(int);
     void process(Event e);
+    vector<Node> nodeList;
 private:
     static int groupIdCounter;
     int id;
-    vector<Node> nodeList;
     int numberOfNode;
 };
 

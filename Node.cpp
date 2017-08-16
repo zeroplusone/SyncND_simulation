@@ -2,12 +2,13 @@
 
 int Node::nodeIdCounter = 0;
 
-Node::Node(int groupId) {
+Node::Node(int groupId, int nodeIdInGroup) {
     this->id = nodeIdCounter;
+    idInGroup = nodeIdInGroup;
     nodeIdCounter += 1;
     cycleCounter = 0;
     belongedGroupId = groupId;
-    srand(time(NULL));
+    srand(time(NULL)+id);
     error_factor = 0;
     newErrorFactor();
 }
@@ -29,7 +30,6 @@ double Node::getNextEventTime(int eventType, double currentTime) {
         cycleCounter++;
         if (cycleCounter >= Parameter::NUMBER_OF_CYCLE_PER_UPDATE) {
             nextEventTime = -1;
-            Parameter::syncNodes.push_back((*this));
             cycleCounter = 0;
         } else {
             nextEventTime = currentTime + Parameter::SLEEP_DURATION * error_factor;

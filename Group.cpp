@@ -9,18 +9,16 @@ Group::Group(int numOfNode)
 
     // create nodes
     numberOfNode = numOfNode;
-    // global clock (id=0)
-    nodeList.push_back(*(new Node(0)));
     // devices
-    while (numOfNode--)
+    for (int i = 0; i < numOfNode; ++i)
     {
-        nodeList.push_back(*(new Node(id)));
+        nodeList.push_back(*(new Node(id, i)));
     }
 
     // variable initialization
-    for (int i = 0; i <= numberOfNode; ++i)
+    for (int i = 0; i < nodeList.size(); ++i)
     {
-        Event e(id, i, ACTIVE_START, 0);
+        Event e(id, nodeList[i].idInGroup, ACTIVE_START, 0);
         Parameter::eventList.push(e);
     }
 }
@@ -31,10 +29,6 @@ void Group::process(Event e)
 
     double currentTime = e.time;
     double nextEventTime = nodeList[e.nodeId].getNextEventTime(e.eventType, currentTime);
-    if (e.eventType == ACTIVE_START)
-        cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-    else if (e.eventType == ACTIVE_END)
-        cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
     switch (e.eventType)
     {
     case ACTIVE_START:
@@ -46,6 +40,8 @@ void Group::process(Event e)
         // create next active event
         if (nextEventTime >= 0)
             Parameter::eventList.push(*(new Event(id, e.nodeId, ACTIVE_START, nextEventTime)));
+        else
+            Parameter::syncNodes.push_back(e.nodeId);
         // statistic
         break;
     default:

@@ -16,7 +16,7 @@ double Parameter::ERROR_BOUND;
 double Parameter::GLOBAL_TIME;
 priority_queue<Event, vector<Event>, Compare> Parameter::eventList;
 vector<Group> Parameter::groupList;
-vector<Node> Parameter::syncNodes;
+vector<int> Parameter::syncNodes;
 
 Parameter::Parameter(double simTime, double dutyCycle, double successProb, double updateFreq) {
     SIM_TIME = simTime;

@@ -37,7 +37,7 @@ public:
     static double GLOBAL_TIME;
     static priority_queue<Event, vector<Event>, Compare> eventList;
     static vector<Group> groupList;
-    static vector<Node> syncNodes;
+    static vector<int> syncNodes;
     void settingDisplay();
 };
 

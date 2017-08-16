@@ -1,10 +1,10 @@
 # include "Parameter.hpp"
 
 void sync(double currentTime) {
-    vector<Node>::iterator it;
-    for (it = Parameter::syncNodes.begin(); it != Parameter::syncNodes.end(); ++it) {
-        Parameter::eventList.push(*(new Event(it->belongedGroupId, it->id, ACTIVE_START, currentTime)));
+    for (int i = 0; i < Parameter::syncNodes.size(); ++i) {
+        Parameter::eventList.push(*(new Event(1, Parameter::groupList[1].nodeList[Parameter::syncNodes[i]].idInGroup, ACTIVE_START, currentTime)));
     }
+    Parameter::syncNodes.clear();
 }
 
 int main(int argc, char* argv[]) {
@@ -33,6 +33,10 @@ int main(int argc, char* argv[]) {
     while (Parameter::GLOBAL_TIME < Parameter::SIM_TIME && !Parameter::eventList.empty()) {
         Event e = Parameter::eventList.top();
         Parameter::eventList.pop();
+        if (e.groupId != 0 && e.eventType == ACTIVE_START)
+            cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        else if (e.groupId != 0 && e.eventType == ACTIVE_END)
+            cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
 
         if (e.groupId == 0) {
             switch (e.eventType) {
@@ -53,6 +57,10 @@ int main(int argc, char* argv[]) {
             Parameter::groupList[e.groupId].process(e);
         }
     }
+    if (Parameter::eventList.empty()) {
+        cout << "empty" << endl;
+    }
+    cout << Parameter::GLOBAL_TIME << " " << Parameter::SIM_TIME << endl;
 
     return 0;
 }
