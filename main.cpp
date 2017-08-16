@@ -18,7 +18,10 @@ int main(int argc, char* argv[]) {
     // parameters setting
     Parameter para(strtod(argv[1], NULL), strtod(argv[2], NULL), strtod(argv[3], NULL), strtod(argv[4], NULL));
     para.settingDisplay();
-
+    if(!para.checkSetting()){
+        cerr<< "Input values are not acceptable."<<endl;
+        return 1;
+    }
 
     // initial events and group
     // -- global clock --
@@ -57,10 +60,5 @@ int main(int argc, char* argv[]) {
             Parameter::groupList[e.groupId].process(e);
         }
     }
-    if (Parameter::eventList.empty()) {
-        cout << "empty" << endl;
-    }
-    cout << Parameter::GLOBAL_TIME << " " << Parameter::SIM_TIME << endl;
-
     return 0;
 }

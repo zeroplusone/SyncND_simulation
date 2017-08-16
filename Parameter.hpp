@@ -39,6 +39,7 @@ public:
     static vector<Group> groupList;
     static vector<int> syncNodes;
     void settingDisplay();
+    bool checkSetting();
 };
 
 #endif

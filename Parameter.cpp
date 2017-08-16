@@ -34,8 +34,15 @@ Parameter::Parameter(double simTime, double dutyCycle, double successProb, doubl
 
 void Parameter::settingDisplay() {
     cout << "======================" << endl;
-    cout << "Duty Cycle: " << Parameter::DUTY_CYCLE << endl;
-    cout << "Success Probability: " << Parameter::SUCCESS_PROB << endl;
-    cout << "update frequency: " << Parameter::UPDATE_FREQ << endl;
+    cout << "Simulation Time: " << SIM_TIME << endl;
+    cout << "Duty Cycle: " << DUTY_CYCLE << endl;
+    cout << "Success Probability: " << SUCCESS_PROB << endl;
+    cout << "update frequency: " << UPDATE_FREQ << endl;
     cout << "======================" << endl;
+}
+
+bool Parameter::checkSetting() {
+    if (DUTY_CYCLE>=0 && DUTY_CYCLE <=1 && SUCCESS_PROB>=0 && SUCCESS_PROB<=1)
+        return true;
+    return false;
 }
