@@ -21,7 +21,7 @@ class Group;
 class Node;
 class Parameter {
 public:
-    Parameter(double, double, double, double);
+    Parameter(double, double, double);
     static double SIM_TIME; // simulation time
     static double DUTY_CYCLE; // duty cycle => energy consumption
     static double SUCCESS_PROB; // assuring probability of success

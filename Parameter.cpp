@@ -18,11 +18,12 @@ priority_queue<Event, vector<Event>, Compare> Parameter::eventList;
 vector<Group> Parameter::groupList;
 vector<int> Parameter::syncNodes;
 
-Parameter::Parameter(double simTime, double dutyCycle, double successProb, double updateFreq) {
+Parameter::Parameter(double simTime, double dutyCycle, double updateFreq) {
     SIM_TIME = simTime;
     DUTY_CYCLE = dutyCycle;
-    SUCCESS_PROB = successProb;
     UPDATE_FREQ = updateFreq;
+
+    SUCCESS_PROB = 0;
 
     ACTIVE_DURATION = 1 * SLOT_DURATION;
     SLEEP_DURATION = (1 / DUTY_CYCLE - 1) * SLOT_DURATION;
@@ -36,13 +37,12 @@ void Parameter::settingDisplay() {
     cout << "======================" << endl;
     cout << "Simulation Time: " << SIM_TIME << endl;
     cout << "Duty Cycle: " << DUTY_CYCLE << endl;
-    cout << "Success Probability: " << SUCCESS_PROB << endl;
     cout << "update frequency: " << UPDATE_FREQ << endl;
     cout << "======================" << endl;
 }
 
 bool Parameter::checkSetting() {
-    if (DUTY_CYCLE>=0 && DUTY_CYCLE <=1 && SUCCESS_PROB>=0 && SUCCESS_PROB<=1)
+    if (DUTY_CYCLE>=0 && DUTY_CYCLE <=1)
         return true;
     return false;
 }
