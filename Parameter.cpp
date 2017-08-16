@@ -26,7 +26,7 @@ Parameter::Parameter(double simTime, double dutyCycle, double updateFreq) {
     SUCCESS_PROB = 0;
 
     ACTIVE_DURATION = 1 * SLOT_DURATION;
-    SLEEP_DURATION = (1 / DUTY_CYCLE - 1) * SLOT_DURATION;
+    SLEEP_DURATION = int(1 / DUTY_CYCLE - 1) * SLOT_DURATION;
     NUMBER_OF_CYCLE_PER_UPDATE = int(UPDATE_FREQ / (1 / DUTY_CYCLE * SLOT_DURATION));
     ERROR_BOUND = 6.9017 * updateFreq / 1000.0 + 0.0983;
     GLOBAL_TIME = 0;
