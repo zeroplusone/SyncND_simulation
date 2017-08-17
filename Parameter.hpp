@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <queue>
 #include <vector>
+#include <cmath>
 #include "Event.hpp"
 #include "Group.hpp"
 #include "Node.hpp"

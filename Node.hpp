@@ -12,9 +12,11 @@ public:
     int idInGroup;
     int belongedGroupId;
     double getNextEventTime(int, double);
+    double numberOfSuccessDiscover;
+    bool isActive;
+    int cycleCounter;
 private:
-    double cycleCounter;
-    double error_factor;
+    double errorFactor;
     void newErrorFactor();
 };
 

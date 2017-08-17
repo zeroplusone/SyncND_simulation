@@ -18,8 +18,8 @@ int main(int argc, char* argv[]) {
     // parameters setting
     Parameter para(strtod(argv[1], NULL), strtod(argv[2], NULL), strtod(argv[3], NULL));
     para.settingDisplay();
-    if(!para.checkSetting()){
-        cerr<< "Input values are not acceptable."<<endl;
+    if (!para.checkSetting()) {
+        cerr << "Input values are not acceptable." << endl;
         return 1;
     }
 
@@ -58,6 +58,12 @@ int main(int argc, char* argv[]) {
         } else {
             Parameter::groupList[e.groupId].process(e);
         }
+    }
+
+    // show result
+    for (int i = 1; i < Parameter::groupList.size(); ++i) {
+        cout << "Group " << i << ": " << endl;
+        Parameter::groupList[i].totalStat();
     }
     return 0;
 }

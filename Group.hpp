@@ -18,10 +18,15 @@ public:
     Group(int);
     void process(Event e);
     vector<Node> nodeList;
+    void totalStat();
 private:
     static int groupIdCounter;
     int id;
     int numberOfNode;
+    // for statistic
+    void startStat(int);
+    void endStat(int);
+    set<int> activeSet;
 };
 
 
