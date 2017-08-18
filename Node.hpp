@@ -3,6 +3,8 @@
 
 #include "Parameter.hpp"
 #include <time.h>
+#include <set>
+using namespace std;
 
 class Node {
 public:
@@ -15,6 +17,7 @@ public:
     double numberOfSuccessDiscover;
     bool isActive;
     int cycleCounter;
+    set<int> discoverDevices;
 private:
     double errorFactor;
     void newErrorFactor();

@@ -55,10 +55,13 @@ void Group::startStat(int nodeId) {
     // add success to existing activate node
     set<int>::iterator it;
     for (it = activeSet.begin(); it != activeSet.end(); ++it) {
-        nodeList[*(it)].numberOfSuccessDiscover++;
+        //nodeList[*(it)].numberOfSuccessDiscover++;
+        nodeList[*(it)].discoverDevices.insert(nodeId);
+        nodeList[nodeId].discoverDevices.insert(*(it));
+
     }
     // add # of existing activate node to its' success counter
-    nodeList[nodeId].numberOfSuccessDiscover += activeSet.size();
+    // nodeList[nodeId].numberOfSuccessDiscover += activeSet.size();
     // add itself to activate node list
     activeSet.insert(nodeId);
 }
@@ -66,13 +69,15 @@ void Group::startStat(int nodeId) {
 void Group::endStat(int nodeId) {
     // remove from activate node list
     activeSet.erase(activeSet.find(nodeId));
+    nodeList[nodeId].numberOfSuccessDiscover += nodeList[nodeId].discoverDevices.size();
+    nodeList[nodeId].discoverDevices.clear();
 }
 
 void Group::totalStat() {
     double nodeProb;
     double averageProb = 0;
     for (int i = 0; i < nodeList.size(); ++i) {
-        // cout << "@" << nodeList[i].numberOfSuccessDiscover << " " << nodeList[i].cycleCounter << endl;
+        cout << "@" << nodeList[i].numberOfSuccessDiscover << " " << nodeList[i].cycleCounter << endl;
         nodeProb = nodeList[i].numberOfSuccessDiscover / (nodeList.size() - 1) / nodeList[i].cycleCounter;
         cout << "  Node " << i << ": " << nodeProb << endl;
         averageProb += nodeProb;

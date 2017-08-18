@@ -13,6 +13,7 @@ Node::Node(int groupId, int nodeIdInGroup) {
     errorFactor = 0;
     newErrorFactor();
     isActive = true;
+    discoverDevices.clear();
 }
 
 void Node::newErrorFactor() {
