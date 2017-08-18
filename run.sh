@@ -17,13 +17,12 @@ fi
  
 # set values of variables
 date=`date +%Y-%m-%d_%H%M`
-# simTime=604800000  # 7 days
-simTime=604800  # 7 days
-# dutyCycle=(0.01 0.02 0.05 0.1 0.2 0.5 1)
-dutyCycle=(0.01 0.5)
-# updateFreqency=(5 10 30 60 180 360 720 1440 2880)
-updateFreqency=(10 360)
-boundingProb=$1
+simTime=604800000  # 7 days
+# simTime=604800  # 7 days
+dutyCycle=(0.01 0.02 0.05 0.1 0.2 0.5 1)
+# dutyCycle=(0.01 0.5)
+updateFreqency=(5 10 30 60 180 360 720 1440 2880)
+# updateFreqency=(10 360)
 # in minute: 5min, 10min, 30min, 1hr, 3hr, 6hr, 12hr, 24hr, 48hr)
  
 resultPath="result/"$date

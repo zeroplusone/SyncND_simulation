@@ -35,10 +35,10 @@ int main(int argc, char* argv[]) {
     while (Parameter::GLOBAL_TIME <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
         Event e = Parameter::eventList.top();
         Parameter::eventList.pop();
-        if (e.eventType == ACTIVE_START)
-            cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-        else if (e.eventType == ACTIVE_END)
-            cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        // if (e.eventType == ACTIVE_START)
+        //     cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        // else if (e.eventType == ACTIVE_END)
+        //     cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
 
         if (e.groupId == 0) {
             switch (e.eventType) {
