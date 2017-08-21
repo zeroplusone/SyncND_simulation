@@ -14,6 +14,7 @@ double Parameter::SLEEP_DURATION;
 int Parameter::NUMBER_OF_CYCLE_PER_UPDATE;
 double Parameter::ERROR_BOUND;
 double Parameter::GLOBAL_TIME;
+double Parameter::GLOBAL_ACTIVE_STATUS;
 priority_queue<Event, vector<Event>, Compare> Parameter::eventList;
 vector<Group> Parameter::groupList;
 vector<int> Parameter::syncNodes;
@@ -31,6 +32,7 @@ Parameter::Parameter(double simTime, double dutyCycle, double updateFreq) {
     NUMBER_OF_CYCLE_PER_UPDATE = int(ceil(UPDATE_FREQ / (1 / DUTY_CYCLE * SLOT_DURATION)));
     ERROR_BOUND = 6.9017 * updateFreq / 1000.0 + 0.0983;
     GLOBAL_TIME = 0;
+    GLOBAL_ACTIVE_STATUS = ACTIVE_DURATION;
     groupList.clear();
 }
 

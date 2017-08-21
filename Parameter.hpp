@@ -36,6 +36,7 @@ public:
     static int NUMBER_OF_CYCLE_PER_UPDATE; // one cycle include active and sleep period
     static double ERROR_BOUND;  // +- value in ms
     static double GLOBAL_TIME;
+    static double GLOBAL_ACTIVE_STATUS; // >= 0 the time of active end, -1 not on
     static priority_queue<Event, vector<Event>, Compare> eventList;
     static vector<Group> groupList;
     static vector<int> syncNodes;

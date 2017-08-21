@@ -40,10 +40,22 @@ void Group::process(Event e) {
             Parameter::eventList.push(*(new Event(id, e.nodeId, ACTIVE_START, nextEventTime)));
         }
         else {
-            Parameter::syncNodes.push_back(e.nodeId);
+            Parameter::eventList.push(*(new Event(id, e.nodeId, SYNC_START, (-1)*nextEventTime)));
         }
         // statistic
         endStat(e.nodeId);
+        break;
+    case SYNC_START:
+        if (Parameter::GLOBAL_ACTIVE_STATUS >= 0) {
+            // sync at global active time
+            nextEventTime = Parameter::GLOBAL_ACTIVE_STATUS;
+            Parameter::eventList.push(*(new Event(id, e.nodeId, ACTIVE_END, nextEventTime)));
+            // statistic
+            startStat(e.nodeId);
+        } else {
+            // sync at global sleep time
+            Parameter::syncNodes.push_back(e.nodeId);
+        }
         break;
     default:
         cerr << "Error event type!" << endl;
@@ -74,10 +86,16 @@ void Group::endStat(int nodeId) {
 }
 
 void Group::totalStat() {
+    // end all active event
+    set<int>::iterator it;
+    for (it = activeSet.begin(); it != activeSet.end(); ++it) {
+        nodeList[*(it)].numberOfSuccessDiscover += nodeList[*(it)].discoverDevices.size();
+        nodeList[*(it)].discoverDevices.clear();
+    }
     double nodeProb;
     double averageProb = 0;
     for (int i = 0; i < nodeList.size(); ++i) {
-        cout << "@" << nodeList[i].numberOfSuccessDiscover << " " << nodeList[i].cycleCounter << endl;
+        // cout << "@" << nodeList[i].numberOfSuccessDiscover << " " << nodeList[i].cycleCounter << endl;
         nodeProb = nodeList[i].numberOfSuccessDiscover / (nodeList.size() - 1) / nodeList[i].cycleCounter;
         cout << "  Node " << i << ": " << nodeProb << endl;
         averageProb += nodeProb;

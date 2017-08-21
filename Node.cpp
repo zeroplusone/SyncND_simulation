@@ -12,7 +12,6 @@ Node::Node(int groupId, int nodeIdInGroup) {
     srand(time(NULL) + id);
     errorFactor = 0;
     newErrorFactor();
-    isActive = true;
     discoverDevices.clear();
 }
 
@@ -23,6 +22,7 @@ void Node::newErrorFactor() {
 }
 
 double Node::getNextEventTime(int eventType, double currentTime) {
+    newErrorFactor();
     double nextEventTime = 0;    // unit: slot
 
     switch (eventType) {
@@ -31,11 +31,16 @@ double Node::getNextEventTime(int eventType, double currentTime) {
         nextEventTime = currentTime + Parameter::ACTIVE_DURATION * errorFactor;
         break;
     case ACTIVE_END:
+
         if (cycleCounter % Parameter::NUMBER_OF_CYCLE_PER_UPDATE == 0) {
-            nextEventTime = -1;
+            nextEventTime = (-1) * (currentTime + Parameter::SLEEP_DURATION * errorFactor);
         } else {
             nextEventTime = currentTime + Parameter::SLEEP_DURATION * errorFactor;
         }
+        break;
+    case SYNC_START:
+        cycleCounter++;
+        nextEventTime = 0;
         break;
     default:
         break;

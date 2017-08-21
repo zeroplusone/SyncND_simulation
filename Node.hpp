@@ -15,7 +15,6 @@ public:
     int belongedGroupId;
     double getNextEventTime(int, double);
     double numberOfSuccessDiscover;
-    bool isActive;
     int cycleCounter;
     set<int> discoverDevices;
 private:
