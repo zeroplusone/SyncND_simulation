@@ -1,0 +1,89 @@
+\documentclass{article}
+% *** plot ***
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{pgfplots}
+\usepackage{subfigure}
+\pgfplotsset{compat=1.12}
+
+\begin{document}
+
+%% overall
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}
+    \begin{axis}[
+        width = 4in,
+        xlabel = {update frequency (ms)},
+        ylabel = {duty cycle},
+        legend pos = outer north east,
+        legend style = {font=\tiny},
+    ]
+        % line 1
+        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-21_1349/updateFreq_to_dutyCycle_with_prob_0.25.txt};
+        % line 2 
+        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/updateFreq_to_dutyCycle_with_prob_0.5.txt};
+        % line 3
+        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/updateFreq_to_dutyCycle_with_prob_0.75.txt};
+        % line 4
+        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-21_1349/updateFreq_to_dutyCycle_with_prob_1.txt};
+
+        \legend{25\% success probability, 50\% success probability, 75\% success probability, 100\% success probability}
+    \end{axis}
+\end{tikzpicture}
+\caption{The minimum requirement of duty cycle in different update frequency and success probability}
+\end{figure}
+
+\begin{figure}[tbp]
+\centering
+%% Figure x:delta y:utilization
+\subfigure[Update Frequency from 5 min to 3 hr]{
+\begin{tikzpicture}
+    \begin{axis}[
+        width = 4in,
+        xlabel = {duty cycle},
+        ylabel = {success probability},
+        legend pos = outer north east,
+        legend style = {font=\tiny},
+    ]
+        % line 1
+        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_300000.txt};
+        % line 2 
+        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_600000.txt};
+        % line 3
+        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_1800000.txt};
+        % line 4
+        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_3600000.txt};
+        % line 4
+        \addplot+[draw = black, mark = diamond, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_10800000.txt};
+        \legend{5min, 10min, 30min, 1hr, 3hr}
+    \end{axis}
+\end{tikzpicture}
+}
+\subfigure[Update Frequency from 6 hr to 2 day]{
+\begin{tikzpicture}
+    \begin{axis}[
+        width = 4in,
+        xlabel = {duty cycle},
+        ylabel = {success probability},
+        legend pos = outer north east,
+        legend style = {font=\tiny},
+    ]
+        % line 1
+        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_21600000.txt};
+        % line 2 
+        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_43200000.txt};
+        % line 3
+        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_86400000.txt};
+        % line 4
+        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_172800000.txt};
+        % line 4
+        \legend{6hr, 12hr, 24hr, 48hr}
+    \end{axis}
+\end{tikzpicture}
+}
+\caption{The success probability of different duty cycle and update frequency}
+\end{figure}
+
+
+\end{document}

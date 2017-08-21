@@ -26,7 +26,7 @@ do
         fileName=`echo $dirPath/updateFreqency_$i-dutyCycle_$j.raw`
         prob=`awk '/Average/{print $2}' $fileName`
         echo $j" "$prob >> $dirPath"/prob_of_updateFreq_"$i".txt"
-        if [ $(echo " $prob < $boundingProb " | bc) -eq 0 ]; then
+        if [ $(echo " $prob < $boundingProb " | bc -l) -eq 0 ]; then
             if [ $isReachBound -eq 0 ]; then
                 echo $i" "$j >> $dirPath"/updateFreq_to_dutyCycle_with_prob_"$boundingProb".txt"
                 isReachBound=1
