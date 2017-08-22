@@ -21,9 +21,10 @@ simTime=604800000  # 7 days
 # simTime=604800  # 7 days
 dutyCycle=(0.01 0.02 0.05 0.1 0.2 0.5 1)
 # dutyCycle=(0.01 0.5)
-updateFreqency=(300000 600000 1800000 3600000 10800000 21600000 43200000 86400000 172800000)
-# updateFreqency=(10 360)
+# updateFreqency=(300000 600000 1800000 3600000 10800000 21600000 43200000 86400000 172800000)
 # in minute: 5min, 10min, 30min, 1hr, 3hr, 6hr, 12hr, 24hr, 48hr)
+updateFreqency=(60000 300000 600000 1200000 1800000 2400000 3000000 3600000)
+# in minute: 1min, 5min, 10min, 20min, 30min, 40min, 50min, 60min)
 
  
 resultPath="result/"$date

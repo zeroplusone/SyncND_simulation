@@ -20,15 +20,17 @@
         legend style = {font=\tiny},
     ]
         % line 1
-        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-21_1349/updateFreq_to_dutyCycle_with_prob_0.25.txt};
+        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-22_1157/updateFreq_to_dutyCycle_with_prob_0.25.txt};
         % line 2 
-        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/updateFreq_to_dutyCycle_with_prob_0.5.txt};
+        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-22_1157/updateFreq_to_dutyCycle_with_prob_0.5.txt};
         % line 3
-        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/updateFreq_to_dutyCycle_with_prob_0.75.txt};
+        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {2017-08-22_1157/updateFreq_to_dutyCycle_with_prob_0.75.txt};
         % line 4
-        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-21_1349/updateFreq_to_dutyCycle_with_prob_1.txt};
+        \addplot+[draw = black, mark = diamond*, mark options = {scale=1, fill=white}] table {2017-08-22_1157/updateFreq_to_dutyCycle_with_prob_0.95.txt};
+        % line 4
+        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-22_1157/updateFreq_to_dutyCycle_with_prob_1.txt};
 
-        \legend{25\% success probability, 50\% success probability, 75\% success probability, 100\% success probability}
+        \legend{25\% success probability, 50\% success probability, 75\% success probability,95\% success probability, 100\% success probability}
     \end{axis}
 \end{tikzpicture}
 \caption{The minimum requirement of duty cycle in different update frequency and success probability}
@@ -47,16 +49,16 @@
         legend style = {font=\tiny},
     ]
         % line 1
-        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_300000.txt};
+        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-22_1157/prob_of_updateFreq_60000.txt};
         % line 2 
-        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_600000.txt};
+        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-22_1157/prob_of_updateFreq_300000.txt};
         % line 3
-        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_1800000.txt};
+        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {2017-08-22_1157/prob_of_updateFreq_600000.txt};
         % line 4
-        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_3600000.txt};
+        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-22_1157/prob_of_updateFreq_1200000.txt};
         % line 4
-        \addplot+[draw = black, mark = diamond, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_10800000.txt};
-        \legend{5min, 10min, 30min, 1hr, 3hr}
+        \addplot+[draw = black, mark = diamond, mark options = {scale=1, fill=white}] table {2017-08-22_1157/prob_of_updateFreq_1800000.txt};
+        \legend{1min, 5min, 10min, 20min, 30min}
     \end{axis}
 \end{tikzpicture}
 }
@@ -70,15 +72,13 @@
         legend style = {font=\tiny},
     ]
         % line 1
-        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_21600000.txt};
+        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {2017-08-22_1157/prob_of_updateFreq_2400000.txt};
         % line 2 
-        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_43200000.txt};
-        % line 3
-        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_86400000.txt};
+        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {2017-08-22_1157/prob_of_updateFreq_3000000.txt};
         % line 4
-        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-21_1349/prob_of_updateFreq_172800000.txt};
+        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {2017-08-22_1157/prob_of_updateFreq_3600000.txt};
         % line 4
-        \legend{6hr, 12hr, 24hr, 48hr}
+        \legend{40min, 50min, 1hr}
     \end{axis}
 \end{tikzpicture}
 }
