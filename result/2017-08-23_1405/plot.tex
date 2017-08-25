@@ -1,0 +1,72 @@
+\documentclass{article}
+% *** plot ***
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{pgfplots}
+\usepackage{subfigure}
+\pgfplotsset{compat=1.12}
+
+\begin{document}
+
+%% overall
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}
+    \begin{axis}[
+        width = 4in,
+        xlabel = {update frequency (ms)},
+        % xtick = {1, 5, 10, 30, 60, 720, 1440},
+        xmode = log,
+        ylabel = {duty cycle},
+        legend pos = outer north east,
+        legend style = {font=\tiny},
+    ]
+        % line 1
+        \addplot+[draw = black, mark = *, mark options = {scale=1, fill=white}] table {./updateFreq_to_dutyCycle_with_prob_0.25.txt};
+        % line 2 
+        \addplot+[draw = black, mark = square*, mark options = {scale=1, fill=white}] table {./updateFreq_to_dutyCycle_with_prob_0.5.txt};
+        % line 3
+        \addplot+[draw = black, mark = triangle*, mark options = {scale=1, fill=white}] table {./updateFreq_to_dutyCycle_with_prob_0.75.txt};
+        % line 4
+        \addplot+[draw = black, mark = diamond*, mark options = {scale=1, fill=white}] table {./updateFreq_to_dutyCycle_with_prob_0.95.txt};
+        % line 4
+        \addplot+[draw = black, mark = star, mark options = {scale=1, fill=white}] table {./updateFreq_to_dutyCycle_with_prob_1.txt};
+
+        \legend{25\% success probability, 50\% success probability, 75\% success probability,95\% success probability, 100\% success probability}
+    \end{axis}
+\end{tikzpicture}
+\caption{The minimum requirement of duty cycle in different update frequency and success probability}
+\end{figure}
+
+\begin{figure}[tbp]
+\begin{tikzpicture}
+    \begin{axis}[
+        width = 4in,
+        xlabel = {duty cycle},
+        ylabel = {success probability},
+        xmode = log,
+        legend pos = outer north east,
+        legend style = {font=\tiny},
+    ]
+        % line 1
+        \addplot table {./prob_of_updateFreq_60000.txt};
+        % line 2 
+        \addplot table {./prob_of_updateFreq_300000.txt};
+        % line 3
+        \addplot table {./prob_of_updateFreq_600000.txt};
+        % line 4
+        \addplot table {./prob_of_updateFreq_1800000.txt};
+        % line 4
+        \addplot table {./prob_of_updateFreq_3600000.txt};
+        % line 4
+        \addplot table {./prob_of_updateFreq_43200000.txt};
+        % line 4
+        \addplot table {./prob_of_updateFreq_86400000.txt};
+        \legend{1min, 5min, 10min, 60min, 720min, 1440min}
+    \end{axis}
+\end{tikzpicture}
+\caption{The success probability of different duty cycle and update frequency}
+\end{figure}
+
+
+\end{document}

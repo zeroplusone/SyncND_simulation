@@ -5,8 +5,8 @@ double Parameter::SIM_TIME;
 double Parameter::DUTY_CYCLE;
 double Parameter::SUCCESS_PROB;
 double Parameter::UPDATE_FREQ;
+double Parameter::SLOT_DURATION;
 
-const double Parameter::SLOT_DURATION = 5;
 const double Parameter::NUMBER_OF_GROUPS = 1;
 
 double Parameter::ACTIVE_DURATION;
@@ -19,10 +19,11 @@ priority_queue<Event, vector<Event>, Compare> Parameter::eventList;
 vector<Group> Parameter::groupList;
 vector<int> Parameter::syncNodes;
 
-Parameter::Parameter(double simTime, double dutyCycle, double updateFreq) {
+Parameter::Parameter(double simTime, double dutyCycle, double updateFreq, double slotDuration) {
     SIM_TIME = simTime;
     DUTY_CYCLE = dutyCycle;
     UPDATE_FREQ = updateFreq;
+    SLOT_DURATION = slotDuration;
 
     SUCCESS_PROB = 0;
 
@@ -41,6 +42,7 @@ void Parameter::settingDisplay() {
     cout << "Simulation Time: " << SIM_TIME << endl;
     cout << "Duty Cycle: " << DUTY_CYCLE << endl;
     cout << "update frequency: " << UPDATE_FREQ << endl;
+    cout << "slot duration: " << SLOT_DURATION << endl;
     cout << "======================" << endl;
 }
 

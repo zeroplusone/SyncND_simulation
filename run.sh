@@ -19,13 +19,19 @@ fi
 date=`date +%Y-%m-%d_%H%M`
 simTime=604800000  # 7 days
 # simTime=604800  # 7 days
-dutyCycle=(0.01 0.02 0.05 0.1 0.2 0.5 1)
-# dutyCycle=(0.01 0.5)
+# dutyCycle=(0.01 0.02 0.05 0.1 0.2 0.5 1)
+dutyCycle=(0.0001 0.0005 0.001 0.002 0.005 0.01 0.025 0.05 0.1 0.2 0.5 1)
+
 # updateFreqency=(300000 600000 1800000 3600000 10800000 21600000 43200000 86400000 172800000)
 # in minute: 5min, 10min, 30min, 1hr, 3hr, 6hr, 12hr, 24hr, 48hr)
-updateFreqency=(60000 300000 600000 1200000 1800000 2400000 3000000 3600000)
+# updateFreqency=(60000 300000 600000 1200000 1800000 2400000 3000000 3600000)
 # in minute: 1min, 5min, 10min, 20min, 30min, 40min, 50min, 60min)
+updateFreqency=(60000 300000 600000 1800000 3600000 43200000 86400000)
+# in minute: 1min, 5min, 10min, 30min, 60min, 12 hr, 1 day)
+# updateFreqency=(172800000 259200000 345600000 432000000 518400000 604800000)
+# in minute: 2day, 3day, 4day, 5day, 6day, 7day)
 
+slotDuration=$1
  
 resultPath="result/"$date
  
@@ -39,7 +45,7 @@ do
     do
         echo $i"_"$j
         echo "updateFreqency: "$i", dutyCycle: "$j
-        ./SyncND.out $simTime $j $i > $resultPath/"updateFreqency_"$i"-dutyCycle_"$j".raw"
+        ./SyncND.out $simTime $j $i $slotDuration > $resultPath/"updateFreqency_"$i"-dutyCycle_"$j".raw"
 
     done
 done

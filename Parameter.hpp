@@ -22,15 +22,15 @@ class Group;
 class Node;
 class Parameter {
 public:
-    Parameter(double, double, double);
+    Parameter(double, double, double, double);
     static double SIM_TIME; // simulation time
     static double DUTY_CYCLE; // duty cycle => energy consumption
     static double SUCCESS_PROB; // assuring probability of success
     static double UPDATE_FREQ; // update frequency in ms
 
-    static const double SLOT_DURATION; // in ms
     static const double NUMBER_OF_GROUPS; // number of groups
 
+    static double SLOT_DURATION; // in ms
     static double ACTIVE_DURATION; // in ms
     static double SLEEP_DURATION; // in ms
     static int NUMBER_OF_CYCLE_PER_UPDATE; // one cycle include active and sleep period
