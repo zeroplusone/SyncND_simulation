@@ -14,10 +14,18 @@ Group::Group(int numOfNode) {
     }
 
     // variable initialization
-    for (int i = 0; i < nodeList.size(); ++i) {
+    if(id==0){
+        for (int i = 0; i < nodeList.size(); ++i) {
+        Event e(id, nodeList[i].idInGroup, ACTIVE_START, 0);
+    }
+    }else{
+        for (int i = 0; i < nodeList.size(); ++i) {
         Event e(id, nodeList[i].idInGroup, ACTIVE_START, 0);
         Parameter::eventList.push(e);
+        nodeList[i].newNextCalibration(0);
     }
+    }
+    
 
     activeSet.clear();
 }
@@ -25,42 +33,55 @@ Group::Group(int numOfNode) {
 void Group::process(Event e) {
     // cout << "--- Group_" << id << " process ---" << endl;
 
-    double currentTime = e.time;
-    double nextEventTime = nodeList[e.nodeId].getNextEventTime(e.eventType, currentTime);
-    switch (e.eventType) {
-    case ACTIVE_START:
-        // create end event
-        Parameter::eventList.push(*(new Event(id, e.nodeId, ACTIVE_END, nextEventTime)));
-        // statistic
-        startStat(e.nodeId);
-        break;
-    case ACTIVE_END:
-        // create next active event
-        if (nextEventTime >= 0) {
-            Parameter::eventList.push(*(new Event(id, e.nodeId, ACTIVE_START, nextEventTime)));
+    if (e.groupId == 0) {
+        switch (e.eventType) {
+        case ACTIVE_START:
+            // sync(e.time);
+            Parameter::GLOBAL_ACTIVE_STATUS = e.time + Parameter::ACTIVE_DURATION;
+            Parameter::eventList.push(*(new Event(0, 0, ACTIVE_END, e.time + Parameter::ACTIVE_DURATION)));
+            break;
+        case ACTIVE_END:
+            Parameter::GLOBAL_ACTIVE_STATUS = (-1) * (e.time + Parameter::SLEEP_DURATION);
+            Parameter::eventList.push(*(new Event(0, 0, ACTIVE_START, e.time + Parameter::SLEEP_DURATION)));
+            break;
+        default:
+            cerr << "Error eventType!!" << endl;
+            break;
         }
-        else {
-            Parameter::eventList.push(*(new Event(id, e.nodeId, SYNC_START, (-1)*nextEventTime)));
-        }
-        // statistic
-        endStat(e.nodeId);
-        break;
-    case SYNC_START:
-        if (Parameter::GLOBAL_ACTIVE_STATUS >= 0) {
-            // sync at global active time
-            nextEventTime = Parameter::GLOBAL_ACTIVE_STATUS;
-            Parameter::eventList.push(*(new Event(id, e.nodeId, ACTIVE_END, nextEventTime)));
+    } else {
+        double currentTime = e.time;
+        double nextEventTime = nodeList[e.nodeId].getNextEventTime(e.eventType, currentTime);
+
+        switch (e.eventType) {
+        case ACTIVE_START:
+            // create end event
+            nodeList[e.nodeId].nextEvent = new Event(id, e.nodeId, ACTIVE_END, nextEventTime);
+            Parameter::eventList.push(*(nodeList[e.nodeId].nextEvent));
             // statistic
-            startStat(e.nodeId);
-        } else {
-            // sync at global sleep time
-            Parameter::syncNodes.push_back(e.nodeId);
+            //startStat(e.nodeId);
+            break;
+        case ACTIVE_END:
+            // create next active event
+            // if (nextEventTime >= 0) {
+            nodeList[e.nodeId].nextEvent = new Event(id, e.nodeId, ACTIVE_START, nextEventTime);
+            Parameter::eventList.push(*(nodeList[e.nodeId].nextEvent));
+            // }
+            // else {
+                // Parameter::eventList.push(*(new Event(id, e.nodeId, SYNC_START, (-1)*nextEventTime)));
+            // }
+            // statistic
+            //endStat(e.nodeId);
+            break;
+        case CALIBRATION:
+            nodeList[e.nodeId].nextEvent->time = nextEventTime;
+            nodeList[e.nodeId].newNextCalibration(currentTime);
+            break;
+        default:
+            cerr << "Error event type!" << endl;
+            break;
         }
-        break;
-    default:
-        cerr << "Error event type!" << endl;
-        break;
     }
+
 }
 
 void Group::startStat(int nodeId) {

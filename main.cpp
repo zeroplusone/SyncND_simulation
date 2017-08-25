@@ -32,6 +32,7 @@ int main(int argc, char* argv[]) {
     }
 
     //simulation start
+    Parameter::GLOBAL_TIME = 0;
     while (Parameter::GLOBAL_TIME <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
         Event e = Parameter::eventList.top();
         Parameter::eventList.pop();
@@ -39,35 +40,19 @@ int main(int argc, char* argv[]) {
             cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
         else if (e.eventType == ACTIVE_END)
             cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-        else if (e.eventType == SYNC_START)
-            cout << "# Event(SYNC_START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        else if (e.eventType == CALIBRATION)
+            cout << "# Event(CALIBRATION) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
 
-        if (e.groupId == 0) {
-            switch (e.eventType) {
-            case ACTIVE_START:
-                sync(e.time);
-                Parameter::GLOBAL_TIME += Parameter::ACTIVE_DURATION;
-                Parameter::GLOBAL_ACTIVE_STATUS = e.time + Parameter::ACTIVE_DURATION;
-                Parameter::eventList.push(*(new Event(0, 0, ACTIVE_END, e.time + Parameter::ACTIVE_DURATION)));
-                break;
-            case ACTIVE_END:
-                Parameter::GLOBAL_TIME += Parameter::SLEEP_DURATION;
-                Parameter::GLOBAL_ACTIVE_STATUS = -1;
-                Parameter::eventList.push(*(new Event(0, 0, ACTIVE_START, e.time + Parameter::SLEEP_DURATION)));
-                break;
-            default:
-                cerr << "Error eventType!!" << endl;
-                break;
-            }
-        } else {
+        for(int i=0;i<Parameter::groupList.size();++i){
             Parameter::groupList[e.groupId].process(e);
         }
+        Parameter::GLOBAL_TIME = Parameter::eventList.top().time;
     }
 
     // show result
-    for (int i = 1; i < Parameter::groupList.size(); ++i) {
-        cout << "Group " << i << ": " << endl;
-        Parameter::groupList[i].totalStat();
-    }
+    // for (int i = 1; i < Parameter::groupList.size(); ++i) {
+    //     cout << "Group " << i << ": " << endl;
+    //     Parameter::groupList[i].totalStat();
+    // }
     return 0;
 }

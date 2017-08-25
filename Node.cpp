@@ -21,8 +21,13 @@ void Node::newErrorFactor() {
     errorFactor = 1 + randomBound / Parameter::UPDATE_FREQ;
 }
 
-double Node::getNextEventTime(int eventType, double currentTime) {
+void Node::newNextCalibration(double currentTime){
     newErrorFactor();
+    Parameter::eventList.push(*(new Event(belongedGroupId, idInGroup, CALIBRATION, currentTime + Parameter::UPDATE_FREQ*errorFactor)));
+
+}
+
+double Node::getNextEventTime(int eventType, double currentTime) {
     double nextEventTime = 0;    // unit: slot
 
     switch (eventType) {
@@ -31,18 +36,24 @@ double Node::getNextEventTime(int eventType, double currentTime) {
         nextEventTime = currentTime + Parameter::ACTIVE_DURATION * errorFactor;
         break;
     case ACTIVE_END:
-
-        if (cycleCounter % Parameter::NUMBER_OF_CYCLE_PER_UPDATE == 0) {
-            nextEventTime = (-1) * (currentTime + Parameter::SLEEP_DURATION * errorFactor);
+        nextEventTime = currentTime + Parameter::SLEEP_DURATION * errorFactor;
+        cout<<"~"<<belongedGroupId<<" "<<idInGroup<<" "<< nextEventTime<<endl;
+        break;
+    case CALIBRATION:
+        cout<<"!!"<<Parameter::GLOBAL_ACTIVE_STATUS<<endl;
+        double newTime;
+        if (Parameter::GLOBAL_ACTIVE_STATUS >= 0) {
+            newTime=(Parameter::GLOBAL_ACTIVE_STATUS - currentTime) * errorFactor;
+            cout<<"#"<<newTime<<endl;
+            nextEventTime = currentTime + newTime;
         } else {
-            nextEventTime = currentTime + Parameter::SLEEP_DURATION * errorFactor;
+            newTime = ((-1) * Parameter::GLOBAL_ACTIVE_STATUS - currentTime) * errorFactor;
+            cout<<"##"<<newTime<<endl;
+            nextEventTime = currentTime + newTime;
         }
         break;
-    case SYNC_START:
-        cycleCounter++;
-        nextEventTime = 0;
-        break;
     default:
+        cerr << "Error eventType!!" << endl;
         break;
     }
 

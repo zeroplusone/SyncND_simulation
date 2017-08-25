@@ -3,7 +3,7 @@
 
 #define ACTIVE_START 0
 #define ACTIVE_END 1
-#define SYNC_START 2
+#define CALIBRATION 2
 
 class Event {
 public:
