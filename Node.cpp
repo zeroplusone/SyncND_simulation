@@ -18,13 +18,13 @@ Node::Node(int groupId, int nodeIdInGroup) {
 
 void Node::newErrorFactor() {
     double randomBound = rand() % 2 == 0 ? 1.0 : (-1.0); // decide +-
-    randomBound = randomBound * (rand() % int((Parameter::ERROR_BOUND) * 100)) / 100; // decide value
+    randomBound = randomBound * double((rand() % int((Parameter::ERROR_BOUND) * 10000000))) / 10000000.0; // decide value
     errorFactor = 1 + randomBound / Parameter::UPDATE_FREQ;
 }
 
-void Node::newNextCalibration(double currentTime){
+void Node::newNextCalibration(double currentTime) {
     newErrorFactor();
-    Parameter::eventList.insert(*(new Event(belongedGroupId, idInGroup, CALIBRATION, currentTime + Parameter::UPDATE_FREQ*errorFactor)));
+    Parameter::eventList.insert(*(new Event(belongedGroupId, idInGroup, CALIBRATION, currentTime + Parameter::UPDATE_FREQ * errorFactor)));
 }
 
 double Node::getNextEventTime(int eventType, double currentTime) {
@@ -38,19 +38,15 @@ double Node::getNextEventTime(int eventType, double currentTime) {
         break;
     case ACTIVE_END:
         nextEventTime = currentTime + Parameter::SLEEP_DURATION * errorFactor;
-        activeStatus = (-1)*nextEventTime;
-        // cout<<"~"<<belongedGroupId<<" "<<idInGroup<<" "<< nextEventTime<<endl;
+        activeStatus = (-1) * nextEventTime;
         break;
     case CALIBRATION:
-        // cout<<"!!"<<Parameter::GLOBAL_ACTIVE_STATUS<<" "<<belongedGroupId<< endl;
         double newTime;
         if (Parameter::GLOBAL_ACTIVE_STATUS >= 0) {
-            newTime=(Parameter::GLOBAL_ACTIVE_STATUS - currentTime) * errorFactor;
-            // cout<<"#"<<newTime<<endl;
+            newTime = (Parameter::GLOBAL_ACTIVE_STATUS - currentTime) * errorFactor;
             nextEventTime = currentTime + newTime;
         } else {
             newTime = ((-1) * Parameter::GLOBAL_ACTIVE_STATUS - currentTime) * errorFactor;
-            // cout<<"##"<<newTime<<endl;
             nextEventTime = currentTime + newTime;
         }
         break;

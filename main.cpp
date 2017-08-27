@@ -1,12 +1,5 @@
 # include "Parameter.hpp"
 
-void sync(double currentTime) {
-    for (int i = 0; i < Parameter::syncNodes.size(); ++i) {
-        Parameter::eventList.insert(*(new Event(1, Parameter::groupList[1].nodeList[Parameter::syncNodes[i]].idInGroup, ACTIVE_START, currentTime)));
-    }
-    Parameter::syncNodes.clear();
-}
-
 int main(int argc, char* argv[]) {
 
     // argument error handling
@@ -35,20 +28,19 @@ int main(int argc, char* argv[]) {
     while (Parameter::GLOBAL_TIME <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
         Event e = *(Parameter::eventList.begin());
         Parameter::eventList.erase(Parameter::eventList.begin());
-        // if (e.eventType == ACTIVE_START)
-        //     cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-        // else if (e.eventType == ACTIVE_END)
-        //     cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-        // else if (e.eventType == CALIBRATION)
-        //     cout << "# Event(CALIBRATION) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        if (e.eventType == ACTIVE_START)
+            cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        else if (e.eventType == ACTIVE_END)
+            cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        else if (e.eventType == CALIBRATION)
+            cout << "# Event(CALIBRATION) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
 
+        // show event list
         // for(set<Event>::iterator it=Parameter::eventList.begin(); it!= Parameter::eventList.end();++it){
         //     cout<<"!"<<it->groupId<<" "<<it->nodeId<<" "<<it->eventType<<" "<<it->time<<endl;
         // }
 
-        // for(int i=0;i<Parameter::groupList.size();++i){
-            Parameter::groupList[e.groupId].process(e);
-        // }
+        Parameter::groupList[e.groupId].process(e);
         Parameter::GLOBAL_TIME = Parameter::eventList.begin()->time;
     }
 

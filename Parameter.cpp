@@ -31,7 +31,8 @@ Parameter::Parameter(double simTime, double dutyCycle, double updateFreq, double
     SLEEP_DURATION = int(1 / DUTY_CYCLE - 1) * SLOT_DURATION;
     // round up
     NUMBER_OF_CYCLE_PER_UPDATE = int(ceil(UPDATE_FREQ / (1 / DUTY_CYCLE * SLOT_DURATION)));
-    ERROR_BOUND = 6.9017 * updateFreq / 1000.0 + 0.0983;
+    // ERROR_BOUND = 6.9017 * updateFreq / 1000.0 + 0.0983;
+    ERROR_BOUND = 3e-16 * UPDATE_FREQ * UPDATE_FREQ + 2e-8 * UPDATE_FREQ;
     GLOBAL_TIME = 0;
     GLOBAL_ACTIVE_STATUS = ACTIVE_DURATION;
     groupList.clear();

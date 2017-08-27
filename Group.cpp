@@ -27,7 +27,6 @@ Group::Group(int numOfNode) {
         }
     }
 
-
     activeSet.clear();
 }
 
@@ -37,7 +36,6 @@ void Group::process(Event e) {
     if (e.groupId == 0) {
         switch (e.eventType) {
         case ACTIVE_START:
-            // sync(e.time);
             Parameter::GLOBAL_ACTIVE_STATUS = e.time + Parameter::ACTIVE_DURATION;
             Parameter::eventList.insert(*(new Event(0, 0, ACTIVE_END, e.time + Parameter::ACTIVE_DURATION)));
             break;
@@ -64,55 +62,37 @@ void Group::process(Event e) {
             break;
         case ACTIVE_END:
             // create next active event
-            // if (nextEventTime >= 0) {
-            // nodeList[e.nodeId].nextEvent = new Event(id, e.nodeId, ACTIVE_START, nextEventTime);
-            // Parameter::eventList.insert(*(nodeList[e.nodeId].nextEvent));
             newEvent = *(new Event(id, e.nodeId, ACTIVE_START, nextEventTime));
             Parameter::eventList.insert(newEvent);
             nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
-            // }
-            // else {
-            // Parameter::eventList.push(*(new Event(id, e.nodeId, SYNC_START, (-1)*nextEventTime)));
-            // }
             // statistic
             endStat(e.nodeId);
             break;
         case CALIBRATION:
             if (Parameter::GLOBAL_ACTIVE_STATUS * nodeList[e.nodeId].activeStatus >= 0) {
-                // nodeList[e.nodeId].nextEvent->time = nextEventTime;
+                // at correct active status
+
+                // calibrate next event time (remove old one and add new one)
                 newEvent = *(nodeList[e.nodeId].nextEvent);
                 Parameter::eventList.erase(nodeList[e.nodeId].nextEvent);
                 newEvent.time = nextEventTime;
-                // for (set<Event>::iterator it = Parameter::eventList.begin(); it != Parameter::eventList.end(); ++it)
-                //     cout << it->groupId << " " << it->nodeId << " " << it->eventType << " " << it->time << endl;
                 Parameter::eventList.insert(newEvent);
                 nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
 
-                // for (set<Event>::iterator it = Parameter::eventList.begin(); it != Parameter::eventList.end(); ++it)
-                //     cout <<"!"<< it->groupId << " " << it->nodeId << " " << it->eventType << " " << it->time << endl;
             } else {
+                // at wrong active status
                 if (nodeList[e.nodeId].activeStatus >= 0) {
-
+                    // immediate turn on and remove old one
                     newEvent = *(new Event(id, e.nodeId, ACTIVE_END, currentTime));
                     Parameter::eventList.erase(nodeList[e.nodeId].nextEvent);
                     Parameter::eventList.insert(newEvent);
-                    // newEvent.eventType = ACTIVE_START;
-                    // newEvent.time = (-1) * nextEventTime;
-                    // // for (set<Event>::iterator it = Parameter::eventList.begin(); it != Parameter::eventList.end(); ++it)
-                    // //     cout << it->groupId << " " << it->nodeId << " " << it->eventType << " " << it->time << endl;
-                    // Parameter::eventList.insert(newEvent);
                     nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
 
                 } else {
-
+                    // immediate turn off and remove old one
                     newEvent = *(new Event(id, e.nodeId, ACTIVE_START, currentTime));
                     Parameter::eventList.erase(nodeList[e.nodeId].nextEvent);
                     Parameter::eventList.insert(newEvent);
-                    // newEvent.eventType = ACTIVE_END;
-                    // newEvent.time = nextEventTime;
-                    // // for (set<Event>::iterator it = Parameter::eventList.begin(); it != Parameter::eventList.end(); ++it)
-                    // //     cout << it->groupId << " " << it->nodeId << " " << it->eventType << " " << it->time << endl;
-                    // Parameter::eventList.insert(newEvent);
                     nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
                 }
             }
@@ -158,6 +138,7 @@ void Group::totalStat() {
     double nodeProb;
     double averageProb = 0;
     for (int i = 0; i < nodeList.size(); ++i) {
+        // display counting number
         // cout << "@" << nodeList[i].numberOfSuccessDiscover << " " << nodeList[i].cycleCounter << endl;
         nodeProb = nodeList[i].numberOfSuccessDiscover / (nodeList.size() - 1) / nodeList[i].cycleCounter;
         cout << "  Node " << i << ": " << nodeProb << endl;
