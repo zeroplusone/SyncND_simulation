@@ -15,7 +15,7 @@ int Parameter::NUMBER_OF_CYCLE_PER_UPDATE;
 double Parameter::ERROR_BOUND;
 double Parameter::GLOBAL_TIME;
 double Parameter::GLOBAL_ACTIVE_STATUS;
-priority_queue<Event, vector<Event>, Compare> Parameter::eventList;
+set<Event, Compare> Parameter::eventList;
 vector<Group> Parameter::groupList;
 vector<int> Parameter::syncNodes;
 

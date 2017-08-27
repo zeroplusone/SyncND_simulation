@@ -17,7 +17,8 @@ public:
     double numberOfSuccessDiscover;
     int cycleCounter;
     set<int> discoverDevices;
-    Event* nextEvent;
+    set<Event>::iterator nextEvent;
+    double activeStatus;
     void newNextCalibration(double);
 private:
     void newErrorFactor();

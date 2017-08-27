@@ -13,6 +13,7 @@ Node::Node(int groupId, int nodeIdInGroup) {
     errorFactor = 0;
     newErrorFactor();
     discoverDevices.clear();
+    activeStatus = 0;
 }
 
 void Node::newErrorFactor() {
@@ -23,8 +24,7 @@ void Node::newErrorFactor() {
 
 void Node::newNextCalibration(double currentTime){
     newErrorFactor();
-    Parameter::eventList.push(*(new Event(belongedGroupId, idInGroup, CALIBRATION, currentTime + Parameter::UPDATE_FREQ*errorFactor)));
-
+    Parameter::eventList.insert(*(new Event(belongedGroupId, idInGroup, CALIBRATION, currentTime + Parameter::UPDATE_FREQ*errorFactor)));
 }
 
 double Node::getNextEventTime(int eventType, double currentTime) {
@@ -34,21 +34,23 @@ double Node::getNextEventTime(int eventType, double currentTime) {
     case ACTIVE_START:
         cycleCounter++;
         nextEventTime = currentTime + Parameter::ACTIVE_DURATION * errorFactor;
+        activeStatus = nextEventTime;
         break;
     case ACTIVE_END:
         nextEventTime = currentTime + Parameter::SLEEP_DURATION * errorFactor;
-        cout<<"~"<<belongedGroupId<<" "<<idInGroup<<" "<< nextEventTime<<endl;
+        activeStatus = (-1)*nextEventTime;
+        // cout<<"~"<<belongedGroupId<<" "<<idInGroup<<" "<< nextEventTime<<endl;
         break;
     case CALIBRATION:
-        cout<<"!!"<<Parameter::GLOBAL_ACTIVE_STATUS<<endl;
+        // cout<<"!!"<<Parameter::GLOBAL_ACTIVE_STATUS<<" "<<belongedGroupId<< endl;
         double newTime;
         if (Parameter::GLOBAL_ACTIVE_STATUS >= 0) {
             newTime=(Parameter::GLOBAL_ACTIVE_STATUS - currentTime) * errorFactor;
-            cout<<"#"<<newTime<<endl;
+            // cout<<"#"<<newTime<<endl;
             nextEventTime = currentTime + newTime;
         } else {
             newTime = ((-1) * Parameter::GLOBAL_ACTIVE_STATUS - currentTime) * errorFactor;
-            cout<<"##"<<newTime<<endl;
+            // cout<<"##"<<newTime<<endl;
             nextEventTime = currentTime + newTime;
         }
         break;

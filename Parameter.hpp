@@ -13,7 +13,15 @@ using namespace std;
 
 struct Compare {
     bool operator()(const Event& a, const Event& b)const {
-        return a.time == b.time ? a.groupId > b.groupId : a.time > b.time;
+        if(a.time != b.time){
+            return a.time<b.time;
+        } else if (a.groupId != b.groupId){
+            return a.groupId < b.groupId;
+        } else if (a.nodeId != b.nodeId){
+            return a.nodeId < b.nodeId;
+        } else {
+            return a.eventType < b.eventType;
+        }
     }
 };
 
@@ -37,7 +45,7 @@ public:
     static double ERROR_BOUND;  // +- value in ms
     static double GLOBAL_TIME;
     static double GLOBAL_ACTIVE_STATUS; // >= 0 the time of active end, -1 not on
-    static priority_queue<Event, vector<Event>, Compare> eventList;
+    static set<Event, Compare> eventList;
     static vector<Group> groupList;
     static vector<int> syncNodes;
     void settingDisplay();

@@ -14,18 +14,19 @@ Group::Group(int numOfNode) {
     }
 
     // variable initialization
-    if(id==0){
+    if (id == 0) {
         for (int i = 0; i < nodeList.size(); ++i) {
-        Event e(id, nodeList[i].idInGroup, ACTIVE_START, 0);
-    }
-    }else{
+            Event e(id, nodeList[i].idInGroup, ACTIVE_START, 0);
+            Parameter::eventList.insert(e);
+        }
+    } else {
         for (int i = 0; i < nodeList.size(); ++i) {
-        Event e(id, nodeList[i].idInGroup, ACTIVE_START, 0);
-        Parameter::eventList.push(e);
-        nodeList[i].newNextCalibration(0);
+            Event e(id, nodeList[i].idInGroup, ACTIVE_START, 0);
+            Parameter::eventList.insert(e);
+            nodeList[i].newNextCalibration(0);
+        }
     }
-    }
-    
+
 
     activeSet.clear();
 }
@@ -38,11 +39,11 @@ void Group::process(Event e) {
         case ACTIVE_START:
             // sync(e.time);
             Parameter::GLOBAL_ACTIVE_STATUS = e.time + Parameter::ACTIVE_DURATION;
-            Parameter::eventList.push(*(new Event(0, 0, ACTIVE_END, e.time + Parameter::ACTIVE_DURATION)));
+            Parameter::eventList.insert(*(new Event(0, 0, ACTIVE_END, e.time + Parameter::ACTIVE_DURATION)));
             break;
         case ACTIVE_END:
             Parameter::GLOBAL_ACTIVE_STATUS = (-1) * (e.time + Parameter::SLEEP_DURATION);
-            Parameter::eventList.push(*(new Event(0, 0, ACTIVE_START, e.time + Parameter::SLEEP_DURATION)));
+            Parameter::eventList.insert(*(new Event(0, 0, ACTIVE_START, e.time + Parameter::SLEEP_DURATION)));
             break;
         default:
             cerr << "Error eventType!!" << endl;
@@ -51,29 +52,70 @@ void Group::process(Event e) {
     } else {
         double currentTime = e.time;
         double nextEventTime = nodeList[e.nodeId].getNextEventTime(e.eventType, currentTime);
-
+        Event newEvent(0, 0, 0, 0);
         switch (e.eventType) {
         case ACTIVE_START:
             // create end event
-            nodeList[e.nodeId].nextEvent = new Event(id, e.nodeId, ACTIVE_END, nextEventTime);
-            Parameter::eventList.push(*(nodeList[e.nodeId].nextEvent));
+            newEvent = *(new Event(id, e.nodeId, ACTIVE_END, nextEventTime));
+            Parameter::eventList.insert(newEvent);
+            nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
             // statistic
-            //startStat(e.nodeId);
+            startStat(e.nodeId);
             break;
         case ACTIVE_END:
             // create next active event
             // if (nextEventTime >= 0) {
-            nodeList[e.nodeId].nextEvent = new Event(id, e.nodeId, ACTIVE_START, nextEventTime);
-            Parameter::eventList.push(*(nodeList[e.nodeId].nextEvent));
+            // nodeList[e.nodeId].nextEvent = new Event(id, e.nodeId, ACTIVE_START, nextEventTime);
+            // Parameter::eventList.insert(*(nodeList[e.nodeId].nextEvent));
+            newEvent = *(new Event(id, e.nodeId, ACTIVE_START, nextEventTime));
+            Parameter::eventList.insert(newEvent);
+            nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
             // }
             // else {
-                // Parameter::eventList.push(*(new Event(id, e.nodeId, SYNC_START, (-1)*nextEventTime)));
+            // Parameter::eventList.push(*(new Event(id, e.nodeId, SYNC_START, (-1)*nextEventTime)));
             // }
             // statistic
-            //endStat(e.nodeId);
+            endStat(e.nodeId);
             break;
         case CALIBRATION:
-            nodeList[e.nodeId].nextEvent->time = nextEventTime;
+            if (Parameter::GLOBAL_ACTIVE_STATUS * nodeList[e.nodeId].activeStatus >= 0) {
+                // nodeList[e.nodeId].nextEvent->time = nextEventTime;
+                newEvent = *(nodeList[e.nodeId].nextEvent);
+                Parameter::eventList.erase(nodeList[e.nodeId].nextEvent);
+                newEvent.time = nextEventTime;
+                // for (set<Event>::iterator it = Parameter::eventList.begin(); it != Parameter::eventList.end(); ++it)
+                //     cout << it->groupId << " " << it->nodeId << " " << it->eventType << " " << it->time << endl;
+                Parameter::eventList.insert(newEvent);
+                nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
+
+                // for (set<Event>::iterator it = Parameter::eventList.begin(); it != Parameter::eventList.end(); ++it)
+                //     cout <<"!"<< it->groupId << " " << it->nodeId << " " << it->eventType << " " << it->time << endl;
+            } else {
+                if (nodeList[e.nodeId].activeStatus >= 0) {
+
+                    newEvent = *(new Event(id, e.nodeId, ACTIVE_END, currentTime));
+                    Parameter::eventList.erase(nodeList[e.nodeId].nextEvent);
+                    Parameter::eventList.insert(newEvent);
+                    // newEvent.eventType = ACTIVE_START;
+                    // newEvent.time = (-1) * nextEventTime;
+                    // // for (set<Event>::iterator it = Parameter::eventList.begin(); it != Parameter::eventList.end(); ++it)
+                    // //     cout << it->groupId << " " << it->nodeId << " " << it->eventType << " " << it->time << endl;
+                    // Parameter::eventList.insert(newEvent);
+                    nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
+
+                } else {
+
+                    newEvent = *(new Event(id, e.nodeId, ACTIVE_START, currentTime));
+                    Parameter::eventList.erase(nodeList[e.nodeId].nextEvent);
+                    Parameter::eventList.insert(newEvent);
+                    // newEvent.eventType = ACTIVE_END;
+                    // newEvent.time = nextEventTime;
+                    // // for (set<Event>::iterator it = Parameter::eventList.begin(); it != Parameter::eventList.end(); ++it)
+                    // //     cout << it->groupId << " " << it->nodeId << " " << it->eventType << " " << it->time << endl;
+                    // Parameter::eventList.insert(newEvent);
+                    nodeList[e.nodeId].nextEvent = Parameter::eventList.find(newEvent);
+                }
+            }
             nodeList[e.nodeId].newNextCalibration(currentTime);
             break;
         default:
