@@ -16,7 +16,7 @@ if ! [ -f SyncND.out ]; then
 fi
  
 # set values of variables
-date=`date +%Y-%m-%d_%H%M`
+date=`date +%Y-%m-%d_%H%M%S`
 simTime=604800000  # 7 days
 # simTime=604800  # 7 days
 # dutyCycle=(0.01 0.02 0.05 0.1 0.2 0.5 1)

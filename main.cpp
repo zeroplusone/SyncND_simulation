@@ -28,14 +28,15 @@ int main(int argc, char* argv[]) {
     while (Parameter::GLOBAL_TIME <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
         Event e = *(Parameter::eventList.begin());
         Parameter::eventList.erase(Parameter::eventList.begin());
-        if (e.eventType == ACTIVE_START)
-            cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-        else if (e.eventType == ACTIVE_END)
-            cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-        else if (e.eventType == CALIBRATION)
-            cout << "# Event(CALIBRATION) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        // display event info
+        // if (e.eventType == ACTIVE_START)
+        //     cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        // else if (e.eventType == ACTIVE_END)
+        //     cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        // else if (e.eventType == CALIBRATION)
+        //     cout << "# Event(CALIBRATION) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
 
-        // show event list
+        // display event list
         // for(set<Event>::iterator it=Parameter::eventList.begin(); it!= Parameter::eventList.end();++it){
         //     cout<<"!"<<it->groupId<<" "<<it->nodeId<<" "<<it->eventType<<" "<<it->time<<endl;
         // }
