@@ -25,17 +25,19 @@ int main(int argc, char* argv[]) {
     }
     //simulation start
     Parameter::GLOBAL_TIME = 0;
-    while (Parameter::GLOBAL_TIME <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
+    // while (Parameter::GLOBAL_TIME <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
+    while (Parameter::GLOBAL_CYCLE_COUNTER <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
         Event e = *(Parameter::eventList.begin());
         Parameter::eventList.erase(Parameter::eventList.begin());
+#ifdef DEBUG
         // display event info
-        // if (e.eventType == ACTIVE_START)
-        //     cout << "# Event(START) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-        // else if (e.eventType == ACTIVE_END)
-        //     cout << "# Event(END) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-        // else if (e.eventType == CALIBRATION)
-        //     cout << "# Event(CALIBRATION) [" << e.time << "] " << e.groupId << " " << e.nodeId << endl;
-
+        if (e.eventType == ACTIVE_START)
+            cout << "# Event(START) [" << std::setprecision(20) << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        else if (e.eventType == ACTIVE_END)
+            cout << "# Event(END) [" << std::setprecision(20) << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+        else if (e.eventType == CALIBRATION)
+            cout << "# Event(CALIBRATION) [" << std::setprecision(20) << e.time << "] " << e.groupId << " " << e.nodeId << endl;
+#endif
         // display event list
         // for(set<Event>::iterator it=Parameter::eventList.begin(); it!= Parameter::eventList.end();++it){
         //     cout<<"!"<<it->groupId<<" "<<it->nodeId<<" "<<it->eventType<<" "<<it->time<<endl;

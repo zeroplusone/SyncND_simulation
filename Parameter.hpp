@@ -2,6 +2,7 @@
 #define PARAMETER_H
 
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <queue>
 #include <vector>
@@ -45,6 +46,7 @@ public:
     static double ERROR_BOUND;  // +- value in ms
     static double GLOBAL_TIME;
     static double GLOBAL_ACTIVE_STATUS; // >= 0 the time of active end, -1 not on
+    static double GLOBAL_CYCLE_COUNTER;
     static set<Event, Compare> eventList;
     static vector<Group> groupList;
     static vector<int> syncNodes;

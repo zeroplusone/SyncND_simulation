@@ -2,7 +2,7 @@
 #define NODE_H
 
 #include "Parameter.hpp"
-#include <time.h>
+#include <sys/time.h>
 #include <set>
 using namespace std;
 
@@ -15,13 +15,14 @@ public:
     int belongedGroupId;
     double getNextEventTime(int, double);
     double numberOfSuccessDiscover;
-    int cycleCounter;
+    double cycleCounter;
     set<int> discoverDevices;
     set<Event>::iterator nextEvent;
     double activeStatus;
     void newNextCalibration(double);
 private:
     void newErrorFactor();
+    double isFaster;
     double errorFactor;
 };
 

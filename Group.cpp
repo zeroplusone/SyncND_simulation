@@ -36,6 +36,7 @@ void Group::process(Event e) {
     if (e.groupId == 0) {
         switch (e.eventType) {
         case ACTIVE_START:
+            Parameter::GLOBAL_CYCLE_COUNTER ++;
             Parameter::GLOBAL_ACTIVE_STATUS = e.time + Parameter::ACTIVE_DURATION;
             Parameter::eventList.insert(*(new Event(0, 0, ACTIVE_END, e.time + Parameter::ACTIVE_DURATION)));
             break;
@@ -139,7 +140,7 @@ void Group::totalStat() {
     double averageProb = 0;
     for (int i = 0; i < nodeList.size(); ++i) {
         // display counting number
-        // cout << "@" << nodeList[i].numberOfSuccessDiscover << " " << nodeList[i].cycleCounter << endl;
+        cout << "@" << nodeList[i].numberOfSuccessDiscover << " " << nodeList[i].cycleCounter << endl;
         nodeProb = nodeList[i].numberOfSuccessDiscover / (nodeList.size() - 1) / nodeList[i].cycleCounter;
         cout << "  Node " << i << ": " << nodeProb << endl;
         averageProb += nodeProb;
