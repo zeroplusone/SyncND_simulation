@@ -26,7 +26,8 @@ int main(int argc, char* argv[]) {
     //simulation start
     Parameter::GLOBAL_TIME = 0;
     // while (Parameter::GLOBAL_TIME <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
-    while (Parameter::GLOBAL_CYCLE_COUNTER <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
+    // while (Parameter::GLOBAL_CYCLE_COUNTER <= Parameter::SIM_TIME && !Parameter::eventList.empty()) {
+    while (Parameter::GLOBAL_CALIBRATION_COUNTER < Parameter::SIM_TIME && !Parameter::eventList.empty()) {
         Event e = *(Parameter::eventList.begin());
         Parameter::eventList.erase(Parameter::eventList.begin());
 #ifdef DEBUG

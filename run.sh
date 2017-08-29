@@ -19,7 +19,8 @@ fi
 date=`date +%Y-%m-%d_%H%M%S`
 # simTime=604800000  # 7 days
 # simTime=1209600000  # 14 days
-simTime=1000000 # count by cycle time
+# simTime=1000000 # count by cycle time
+simTime=2000 # count by calibration time
 # dutyCycle=(0.01 0.02 0.05 0.1 0.2 0.5 1)
 dutyCycle=(0.0001 0.0005 0.001 0.002 0.005 0.01 0.025 0.05 0.1 0.2 0.5 1)
 

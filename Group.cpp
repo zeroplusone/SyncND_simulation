@@ -70,6 +70,7 @@ void Group::process(Event e) {
             endStat(e.nodeId);
             break;
         case CALIBRATION:
+            Parameter::GLOBAL_CALIBRATION_COUNTER ++;
             if (Parameter::GLOBAL_ACTIVE_STATUS * nodeList[e.nodeId].activeStatus >= 0) {
                 // at correct active status
 
