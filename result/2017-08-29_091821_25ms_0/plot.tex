@@ -1,0 +1,45 @@
+\documentclass{article}
+% *** plot ***
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{pgfplots}
+\usepackage{subfigure}
+\pgfplotsset{compat=1.12}
+
+\begin{document}
+
+\begin{figure}[tbp]
+\begin{tikzpicture}
+    \begin{axis}[
+        width = 4in,
+        xlabel = {duty cycle},
+        ylabel = {success probability},
+        xmode = log,
+        ymax = 1, ymin = 0,
+        legend pos = outer north east,
+        legend style = {font=\tiny},
+    ]
+        % line 1
+        \addplot plot[error bars/.cd, y dir = both, y explicit] table[x =x, y =y, y error =ey] {./average_prob_of_updateFreq_60000.txt};
+        % line 2 
+        \addplot plot[error bars/.cd, y dir = both, y explicit] table[x =x, y =y, y error =ey] {./average_prob_of_updateFreq_3600000.txt};
+        % line 3
+        \addplot plot[error bars/.cd, y dir = both, y explicit] table[x =x, y =y, y error =ey] {./average_prob_of_updateFreq_43200000.txt};
+        % line 4
+        \addplot plot[error bars/.cd, y dir = both, y explicit] table[x =x, y =y, y error =ey] {./average_prob_of_updateFreq_86400000.txt};
+        % line 4
+        \addplot plot[error bars/.cd, y dir = both, y explicit] table[x =x, y =y, y error =ey] {./average_prob_of_updateFreq_172800000.txt};
+        % line 4
+        \addplot plot[error bars/.cd, y dir = both, y explicit] table[x =x, y =y, y error =ey] {./average_prob_of_updateFreq_345600000.txt};
+        line 4
+        \addplot plot[error bars/.cd, y dir = both, y explicit] table[x =x, y =y, y error =ey] {./average_prob_of_updateFreq_691200000.txt};
+        % line 4
+        \addplot plot[error bars/.cd, y dir = both, y explicit] table[x =x, y =y, y error =ey] {./average_prob_of_updateFreq_864000000.txt};
+        \legend{1min, 1hr, 12hr, 1day, 2day, 4day, 8day, 10day}                  
+    \end{axis}
+\end{tikzpicture}
+\caption{The success probability of different duty cycle and update frequency}
+\end{figure}
+
+
+\end{document}

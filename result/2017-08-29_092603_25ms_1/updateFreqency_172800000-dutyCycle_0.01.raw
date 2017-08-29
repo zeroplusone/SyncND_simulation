@@ -1,0 +1,12 @@
+======================
+Simulation Time: 1e+06
+Duty Cycle: 0.01
+update frequency: 1.728e+08
+slot duration: 25
+======================
+Group 1: 
+@988027 1e+06
+  Node 0: 0.988026
+@988028 1e+06
+  Node 1: 0.988027
+Average: 0.988027
